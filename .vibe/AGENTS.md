@@ -11,6 +11,7 @@
 - Offload research, exploration, and parallel analysis to subagents
 - For complex problems, throw more compute at it via subagents
 - One task per subagent for focused execution
+- Run subagents with relevant skills
 
 ### 3. Self-Improvement Loop
 - After ANY correction from the user: update `.vibe/tasks/lessons.md` with the pattern
