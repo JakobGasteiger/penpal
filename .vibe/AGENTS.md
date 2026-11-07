@@ -25,6 +25,7 @@
 - Run tests, check logs, demonstrate correctness
 
 ### 5. Demand Elegance (Balanced)
+- Always try to find the proper, idiomatic way to perform technical tasks
 - For non-trivial changes: pause and ask "is there a more elegant way?"
 - If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
 - Skip this for simple, obvious fixes - don't over-engineer
