@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Colibri",
+      "type": "shell",
+      "command": "F:\\LocalAI\\Colibri\\colibri-app\\coli.cmd serve",
+      "problemMatcher": [],
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}
