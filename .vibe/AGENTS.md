@@ -7,7 +7,7 @@
 - Write detailed specs upfront to reduce ambiguity
 
 ### 2. Subagent Strategy
-- Use subagents liberally to keep main context window clean
+- USE SUBAGENTS LIBERALLY to keep main context window clean
 - Offload research, exploration, and parallel analysis to subagents
 - For complex problems, throw more compute at it via subagents
 - One task per subagent for focused execution
@@ -37,6 +37,12 @@
 - Point at logs, errors, failing tests - then resolve them
 - Zero context switching required from the user
 - Go fix failing CI tests without being told how
+
+### 7. Keep the Project Overview in Sync
+- `.vibe/overview.md` is the living high-level orientation for this repo
+- After ANY major change (multi-file, architectural, new subsystems, workflow changes), call the `update-overview` skill to sync it with the git diffs since the last sync
+- The user may also invoke it directly (`/update-overview`); it remembers what was already seen via a marker comment at the bottom of overview.md
+- Keep overview updates high-level: merge into existing sections, never duplicate what code comments already say
 
 ## Task Management
 
