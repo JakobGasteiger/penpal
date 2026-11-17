@@ -71,7 +71,7 @@ Two migrations define everything:
    the uploader: the first path segment must equal `auth.uid()`.
 
 `config.toml` is a stock local-dev config (all default ports, PG17, fake SMTP on
-54324, Studio on 54323) with `project_id = "flutter-chat"`. Gotchas: `[db.seed]`
+54324, Studio on 54323) with `project_id = "penpal"`. Gotchas: `[db.seed]`
 points at a `./seed.sql` that doesn't exist; migration filenames are
 future-dated (2026…); no edge functions exist despite the edge runtime being on.
 
@@ -91,9 +91,8 @@ the JetBrains run config supplies these flags. Note the modern
 
 ## Conventions worth knowing
 
-- Dart package name is still **`flutter_chat`** — every import is
-  `package:flutter_chat/...`, while the app title, desktop bundle IDs, and `.iml`
-  files say `penpal`. A rename touches every import.
+- Dart package name is **`penpal`** — every import is `package:penpal/...`,
+  matching the app title, bundle IDs, and `.iml` files.
 - Classes are declared `class const Foo(...)` (Dart 3.3+ syntax), used
   consistently.
 - Models are hand-rolled immutable classes with `fromMap`; `Message.isMine` is
@@ -105,9 +104,6 @@ the JetBrains run config supplies these flags. Note the modern
 
 ## Gotchas / pitfalls
 
-- **Name split-brain**: package/Android (`com.example.flutter_chat`)/iOS/web =
-  `flutter_chat`; desktop platforms = `penpal`. There is a dead duplicate
-  `MainActivity.kt` under `com/example/penpal/`.
 - **Release Android builds currently have no INTERNET permission** — it is only
   in the debug/profile manifests, so release APKs can't reach Supabase.
 - `pubspec.lock` is gitignored (unusual for an app); `.widget_preview/` is a
@@ -117,8 +113,8 @@ the JetBrains run config supplies these flags. Note the modern
   both the storage and message-insert RLS policies.
 - Attachments are readable by any authenticated user and can never be deleted
   (no delete policies on tables or storage).
-- `supabase/config.toml` `project_id` and the README still reference the
-  upstream example; migrations carry 2026 dates.
+- The README still credits the upstream `flutter-chat` example; migrations
+  carry 2026 dates.
 - Only direct deps: `supabase_flutter`, `file_picker`, `timeago`,
   `url_launcher`. No mocking packages, no integration tests — test coverage is
   essentially just the image utility.

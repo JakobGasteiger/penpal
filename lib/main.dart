@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/pages/chat_page.dart';
-import 'package:flutter_chat/pages/register_page.dart';
-import 'package:flutter_chat/pages/splash_page.dart';
-import 'package:flutter_chat/utils/constants.dart';
+import 'package:penpal/pages/chat_page.dart';
+import 'package:penpal/pages/register_page.dart';
+import 'package:penpal/pages/splash_page.dart';
+import 'package:penpal/utils/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -53,7 +53,7 @@ class _PenpalAppState extends State<PenpalApp> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Penpal App',
+      title: 'Penpal',
       theme: appTheme,
       home: const SplashPage(),
     );

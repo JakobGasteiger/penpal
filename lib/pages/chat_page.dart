@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/models/message.dart';
-import 'package:flutter_chat/models/profile.dart';
-import 'package:flutter_chat/utils/constants.dart';
-import 'package:flutter_chat/utils/cover_resize_image.dart';
+import 'package:penpal/models/message.dart';
+import 'package:penpal/models/profile.dart';
+import 'package:penpal/utils/constants.dart';
+import 'package:penpal/utils/cover_resize_image.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';

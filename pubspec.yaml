@@ -1,5 +1,5 @@
-name: flutter_chat
-description: Sample chat app using Supabase and Flutter
+name: penpal
+description: Penpal — AI conversational language learning app
 
 publish_to: 'none'
 

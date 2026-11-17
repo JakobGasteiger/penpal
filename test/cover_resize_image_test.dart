@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/utils/cover_resize_image.dart';
+import 'package:penpal/utils/cover_resize_image.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<ui.Image> decodeCovering(

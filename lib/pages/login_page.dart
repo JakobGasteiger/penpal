@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/utils/constants.dart';
+import 'package:penpal/utils/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class const LoginPage({super.key}) extends StatefulWidget {

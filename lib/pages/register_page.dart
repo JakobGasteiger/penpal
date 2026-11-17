@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/pages/login_page.dart';
-import 'package:flutter_chat/utils/constants.dart';
+import 'package:penpal/pages/login_page.dart';
+import 'package:penpal/utils/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class const RegisterPage({super.key}) extends StatefulWidget {

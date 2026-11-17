@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat/utils/constants.dart';
+import 'package:penpal/utils/constants.dart';
 
 /// Page shown until the initial auth state is known.
 class const SplashPage({super.key}) extends StatelessWidget {
