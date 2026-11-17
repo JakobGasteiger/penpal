@@ -38,6 +38,12 @@
 - Zero context switching required from the user
 - Go fix failing CI tests without being told how
 
+### 7. Keep the Project Overview in Sync
+- `.vibe/overview.md` is the living high-level orientation for this repo
+- After ANY major change (multi-file, architectural, new subsystems, workflow changes), call the `update-overview` skill to sync it with the git diffs since the last sync
+- The user may also invoke it directly (`/update-overview`); it remembers what was already seen via a marker comment at the bottom of overview.md
+- Keep overview updates high-level: merge into existing sections, never duplicate what code comments already say
+
 ## Task Management
 
 1. **Plan First**: Write plan to `.vibe/tasks/todo.md` with checkable items
