@@ -11,7 +11,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const _attachmentsBucket = 'attachments';
 const _maxAttachmentBytes = 10 * 1024 * 1024;
 const _signedUrlLifetime = Duration(hours: 1);
 const _imageSize = 200.0;
@@ -57,7 +56,7 @@ class _ChatPageState extends State<ChatPage> {
     _myUserId = supabase.auth.currentUser!.id;
     _scrollController.addListener(_loadOlderMessagesIfNeeded);
     _subscription = supabase
-        .from('messages')
+        .from(messagesTable)
         .stream(primaryKey: ['id'])
         .order('created_at')
         .limit(_pageSize)
@@ -152,7 +151,7 @@ class _ChatPageState extends State<ChatPage> {
           .join(',');
       final createdAt = oldest.toUtc().toIso8601String();
       final data = await supabase
-          .from('messages')
+          .from(messagesTable)
           .select()
           .or(
             'created_at.lt.$createdAt,'
@@ -197,7 +196,7 @@ class _ChatPageState extends State<ChatPage> {
     _requestedProfileIds.addAll(profileIds);
     try {
       final data = await supabase
-          .from('profiles')
+          .from(profilesTable)
           .select()
           .inFilter('id', profileIds.toList());
       if (!mounted) return;
@@ -220,7 +219,7 @@ class _ChatPageState extends State<ChatPage> {
       return cached.url;
     }
     final url = supabase.storage
-        .from(_attachmentsBucket)
+        .from(attachmentsBucket)
         .createSignedUrl(path, _signedUrlLifetime.inSeconds);
     _signedUrls[path] = (
       url: url,
@@ -397,7 +396,7 @@ class _MessageBarState extends State<_MessageBar> {
     }
     _textController.clear();
     try {
-      await supabase.from('messages').insert({
+      await supabase.from(messagesTable).insert({
         'profile_id': myUserId,
         'content': text,
       });
@@ -431,9 +430,9 @@ class _MessageBarState extends State<_MessageBar> {
     final text = _textController.text;
     try {
       await supabase.storage
-          .from(_attachmentsBucket)
+          .from(attachmentsBucket)
           .uploadBinary(path, await file.readAsBytes());
-      await supabase.from('messages').insert({
+      await supabase.from(messagesTable).insert({
         'profile_id': myUserId,
         'content': text,
         'attachment_path': path,

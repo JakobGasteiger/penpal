@@ -1,0 +1,3 @@
+-- Seed data for the local database. `supabase db reset` runs this file after
+-- the migrations, so a fresh local backend starts with whatever is inserted
+-- here (e.g. test users or messages). Intentionally empty for now.

@@ -9,10 +9,10 @@ non-obvious gotchas. For agent workflow rules see `AGENTS.md` in this folder.
 **Penpal** — an AI conversational language-learning app. Today it is in a
 "base state": the `supabase-community/flutter-chat` example, renamed. The chat
 foundation (auth + realtime messaging + attachments) works; **the AI layer does
-not exist yet** — that is the point of the project. (Note: the "Start Colibri"
-task in `.vscode/tasks.json` is a personal coding assistant the owner runs
-alongside, auto-started on folder open — it has nothing to do with this project;
-do not read it as a hint about the AI backend.)
+not exist yet** — that is the point of the project. (Note: the commented-out
+"Start Colibri" task in `.vscode/tasks.json` is the owner's personal coding
+assistant, unrelated to this project — never read it as a hint about the AI
+backend; see `.vibe/tasks/lessons.md`.)
 
 ## Architecture at a glance
 
@@ -71,9 +71,9 @@ Two migrations define everything:
    the uploader: the first path segment must equal `auth.uid()`.
 
 `config.toml` is a stock local-dev config (all default ports, PG17, fake SMTP on
-54324, Studio on 54323) with `project_id = "penpal"`. Gotchas: `[db.seed]`
-points at a `./seed.sql` that doesn't exist; migration filenames are
-future-dated (2026…); no edge functions exist despite the edge runtime being on.
+54324, Studio on 54323) with `project_id = "penpal"`. Gotchas: `seed.sql` exists
+but is an empty placeholder; no edge functions exist despite the edge runtime
+being on.
 
 ## How to run
 
@@ -85,8 +85,9 @@ flutter test                                      # only test/cover_resize_image
 
 Credentials come **only** from `--dart-define` (`String.fromEnvironment` in
 `main.dart`) — there is no `.env` and no fallback; missing flags initialize
-Supabase with empty strings and fail late at runtime. Neither the VS Code nor
-the JetBrains run config supplies these flags. Note the modern
+Supabase with empty strings and fail late at runtime. The VS Code launch
+config (`.vscode/launch.json`) supplies the local-dev flags; the JetBrains run
+config still does not. Note the modern
 `publishableKey` parameter (supabase_flutter 2.18), not the legacy `anonKey`.
 
 ## Conventions worth knowing
@@ -99,16 +100,16 @@ the JetBrains run config supplies these flags. Note the modern
   derived at parse time from the current user, not stored.
 - Errors surface as red snackbars via a `BuildContext` extension; auth pages
   distinguish `AuthException` messages from a generic fallback string.
-- Table names are inline string literals; the bucket name is a private const in
-  `chat_page.dart` — none of this is centralized in `constants.dart`.
+- Table and bucket names are centralized as consts in `constants.dart`
+  (`profilesTable`, `messagesTable`, `attachmentsBucket`).
 
 ## Gotchas / pitfalls
 
 - **Release Android builds currently have no INTERNET permission** — it is only
   in the debug/profile manifests, so release APKs can't reach Supabase.
 - `pubspec.lock` is gitignored (unusual for an app); `.widget_preview/` is a
-  committed but inert Flutter widget-preview scaffold (no `@Preview`s, wrong
-  package name, hardcoded Windows path).
+  generated, gitignored widget-preview scaffold (no `@Preview`s) that only
+  exists on disk.
 - The attachment path convention (`<uid>/...`) is load-bearing — enforced by
   both the storage and message-insert RLS policies.
 - Attachments are readable by any authenticated user and can never be deleted
@@ -116,8 +117,7 @@ the JetBrains run config supplies these flags. Note the modern
 - The README still credits the upstream `flutter-chat` example; migrations
   carry 2026 dates.
 - Only direct deps: `supabase_flutter`, `file_picker`, `timeago`,
-  `url_launcher`. No mocking packages, no integration tests — test coverage is
-  essentially just the image utility.
+  `url_launcher`. No mocking packages, no integration tests - limited test coverage.
 
 ## Map of the repo
 
@@ -128,8 +128,9 @@ the JetBrains run config supplies these flags. Note the modern
 | `lib/models/` | `Profile`, `Message` (fromMap models) |
 | `lib/utils/` | `constants.dart` (global supabase client, theme, snackbar ext), `cover_resize_image.dart` |
 | `supabase/` | CLI project: `config.toml`, two migrations, no functions/seed |
-| `test/` | Single widget test for `CoverResizeImage` |
+| `test/` | Widget test for `CoverResizeImage` + unit tests for the models |
 | `android/ ios/ web/ linux/ macos/ windows/` | Stock Flutter platform scaffolding (see gotchas) |
-| `.vibe/` | This overview + `AGENTS.md` (workflow rules; `tasks/` holds todo/lessons per AGENTS.md) |
+| `.vscode/` | `tasks.json` + `launch.json` (launch config with local Supabase `--dart-define`s) |
+| `.vibe/` | This overview + `AGENTS.md` (workflow rules), `skills/` (e.g. `update-overview`), `tasks/` (todo/lessons) |
 
-<!-- overview-sync: last_seen=583f8500416c434f370abfa3633f9108f4cf50d6 fingerprint=bf35c586c88c20cffcc84a9c7ff92e661a6714ea607ca0a4ae24e9ebd0a8f08e at=2026-11-17T21:41:14Z -->
+<!-- overview-sync: last_seen=ca194731770033a12ddbcb1edd2345815d0644a5 fingerprint=211f6e57e30dc20b5245e28c80d414ec4bb9abed97a73f9887bd909dbe6e7bb4 at=2026-11-17T23:47:06Z -->

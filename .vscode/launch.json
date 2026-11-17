@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // Local Supabase backend from `supabase start` — API on port 54321 (see supabase/config.toml).
+    // The key below is the default local anon key the CLI prints for the default JWT secret;
+    // if the CLI prints a `sb_publishable_...` key instead, use that one. Never put production keys here.
+    {
+      "name": "penpal (local Supabase)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=SUPABASE_URL=http://127.0.0.1:54321",
+        "--dart-define=SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE3OTg0Njk2MDAsImlhdCI6MTY0MDk5NTIwMH0.yEu3UDPMWxVZSSL8vtUMHegSVaByuofrJK42on0aurw"
+      ]
+    }
+  ]
+}

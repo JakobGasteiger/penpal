@@ -4,6 +4,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// Supabase client
 final supabase = Supabase.instance.client;
 
+/// Name of the table holding user profiles
+const profilesTable = 'profiles';
+
+/// Name of the table holding chat messages
+const messagesTable = 'messages';
+
+/// Name of the private storage bucket for message attachments
+const attachmentsBucket = 'attachments';
+
 /// Simple preloader inside a Center widget
 const preloader = Center(
   child: CircularProgressIndicator(color: Colors.orange),
