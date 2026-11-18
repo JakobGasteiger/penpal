@@ -41,7 +41,7 @@
 ### 7. Keep the Project Overview in Sync
 - `.vibe/overview.md` is the living high-level orientation for this repo
 - After ANY major change (multi-file, architectural, new subsystems, workflow changes), call the `update-overview` skill to sync it with the git diffs since the last sync
-- The user may also invoke it directly (`/update-overview`); it remembers what was already seen via a marker comment at the bottom of overview.md
+- The user may also invoke it directly (`/update-overview`); it remembers what was already seen via a gitignored sidecar marker in `.vibe/.overview-sync`, so re-stamping never dirties the working tree
 - Keep overview updates high-level: merge into existing sections, never duplicate what code comments already say
 
 ## Task Management

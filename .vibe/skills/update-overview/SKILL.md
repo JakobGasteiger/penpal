@@ -1,6 +1,6 @@
 ---
 name: update-overview
-description: Load this skill to sync .vibe/overview.md with recent project changes. Call it after making major changes (multi-file, architectural, new subsystems, workflow changes), or when the user invokes /update-overview. It reads git diffs since the last synced state — tracked via a marker comment stored at the bottom of overview.md — and rewrites only the affected overview sections.
+description: Load this skill to sync .vibe/overview.md with recent project changes. Call it after making major changes (multi-file, architectural, new subsystems, workflow changes), or when the user invokes /update-overview. It reads git diffs since the last synced state — tracked via a gitignored sidecar marker in .vibe/.overview-sync — and rewrites only the affected overview sections.
 ---
 
 # Update Overview
@@ -11,17 +11,17 @@ line-level documentation, never redundant with code comments.
 
 ## 1. Read the sync marker
 
-Read `.vibe/overview.md` and find the HTML comment at the very bottom:
+Read the sidecar file `.vibe/.overview-sync` (gitignored, a single line):
 
 ```
-<!-- overview-sync: last_seen=<commit sha> fingerprint=<sha256> at=<iso8601 utc> -->
+last_seen=<commit sha> fingerprint=<sha256> at=<iso8601 utc>
 ```
 
-Extract `last_seen` and `fingerprint`. `.vibe/overview.md` itself is always
-excluded from change detection — its own edits (including this marker) are not
-project changes.
+Extract `last_seen` and `fingerprint`. `.vibe/overview.md` and
+`.vibe/.overview-sync` themselves are always excluded from change detection —
+the overview's own edits and the sidecar's own rewrites are not project changes.
 
-If there is no marker: stamp one at current HEAD (see step 5), report
+If there is no sidecar: stamp one at current HEAD (see step 4), report
 "baseline initialized", and stop. Do not rewrite the overview from scratch.
 
 ## 2. Compute what is new since the marker
@@ -31,11 +31,11 @@ From the repo root, run exactly:
 ```bash
 head=$(git rev-parse HEAD)
 commits=$(git log --oneline "$last_seen"..HEAD)
-changes=$(git diff "$last_seen" -- . ':(exclude).vibe/overview.md')
-status=$(git status --porcelain -- . ':(exclude).vibe/overview.md')
-untracked=$(git ls-files --others --exclude-standard -- . ':(exclude).vibe/overview.md')
-fingerprint=$( { echo "$head"; git diff "$last_seen" -- . ':(exclude).vibe/overview.md'; \
-  git status --porcelain -- . ':(exclude).vibe/overview.md'; \
+changes=$(git diff "$last_seen" -- . ':(exclude).vibe/overview.md' ':(exclude).vibe/.overview-sync')
+status=$(git status --porcelain -- . ':(exclude).vibe/overview.md' ':(exclude).vibe/.overview-sync')
+untracked=$(git ls-files --others --exclude-standard -- . ':(exclude).vibe/overview.md' ':(exclude).vibe/.overview-sync')
+fingerprint=$( { echo "$head"; git diff "$last_seen" -- . ':(exclude).vibe/overview.md' ':(exclude).vibe/.overview-sync'; \
+  git status --porcelain -- . ':(exclude).vibe/overview.md' ':(exclude).vibe/.overview-sync'; \
   for f in $untracked; do echo "== $f"; sha256sum "$f"; done; } | sha256sum | cut -d' ' -f1)
 ```
 
@@ -75,15 +75,17 @@ Rules:
 
 ## 4. Re-stamp the marker
 
-Replace the bottom marker comment with:
+Overwrite the sidecar `.vibe/.overview-sync` with a single line:
 
 ```
-<!-- overview-sync: last_seen=$head fingerprint=$fingerprint at=$(date -u +%Y-%m-%dT%H:%M:%SZ) -->
+last_seen=$head fingerprint=$fingerprint at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 ```
 
-using the freshly computed `$head` and `$fingerprint`.
+using the freshly computed `$head` and `$fingerprint`. The sidecar is gitignored,
+so re-stamping never dirties the working tree.
 
 ## 5. Report
 
 Tell the user briefly: which commits/changes were processed, which overview
-sections were updated (or "no overview changes needed"), and the new marker.
+sections were updated (or "no overview changes needed"), and the new sidecar
+marker (`.vibe/.overview-sync`).

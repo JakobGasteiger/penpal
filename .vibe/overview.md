@@ -131,6 +131,4 @@ config still does not. Note the modern
 | `test/` | Widget test for `CoverResizeImage` + unit tests for the models |
 | `android/ ios/ web/ linux/ macos/ windows/` | Stock Flutter platform scaffolding (see gotchas) |
 | `.vscode/` | `tasks.json` + `launch.json` (launch config with local Supabase `--dart-define`s) |
-| `.vibe/` | This overview + `AGENTS.md` (workflow rules), `skills/` (e.g. `update-overview`), `tasks/` (todo/lessons) |
-
-<!-- overview-sync: last_seen=ca194731770033a12ddbcb1edd2345815d0644a5 fingerprint=211f6e57e30dc20b5245e28c80d414ec4bb9abed97a73f9887bd909dbe6e7bb4 at=2026-11-17T23:47:06Z -->
+| `.vibe/` | This overview + `AGENTS.md` (workflow rules), `skills/` (e.g. `update-overview`), `tasks/` (todo/lessons); `.overview-sync` is the gitignored local sync marker |
